@@ -2,15 +2,16 @@ import React from "react";
 import logoImage from "../assets/images/logo-profile-path-way.png"
 import '../assets/css/navbar.css'
 import { NavLink } from "react-router-dom";
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 function Navbar() {
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-light fira-sans-style-medium">
         <div className="container">
-          <a className="navbar-brand" href="www.google.com">
+          <NavLink className="navbar-brand" to={`/`}>
             <img className="logo" src={logoImage} alt="logo" />
-          </a>
+          </NavLink>
           <button
             className="navbar-toggler"
             type="button"
@@ -37,6 +38,11 @@ function Navbar() {
               <li className="nav-item">
                 <NavLink className="nav-link first-color fs-5" to={`signUp`}>
                   SignUp
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link first-color fs-5" to={`user-details`}>
+                <i class="bi bi-person-circle"></i>
                 </NavLink>
               </li>
             </ul>

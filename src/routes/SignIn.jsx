@@ -47,7 +47,7 @@ function SignIn() {
           </label>
         </div>
         <button type="submit" className="btn btn-primary">
-          Submit
+          SignIn
         </button>
       </form>
     </>

@@ -8,6 +8,7 @@ import "bootstrap/dist/js/bootstrap";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import SignIn from "./routes/SignIn";
 import SignUp from "./routes/SignUp";
+import UserPanel from "./routes/UserPanel";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
     path: "/signUp",
     element: <SignUp />,
   },
+  {
+    path: "/user-details",
+    element: <UserPanel />,
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

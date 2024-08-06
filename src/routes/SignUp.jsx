@@ -55,7 +55,7 @@ function SignUp() {
           </label>
         </div>
         <button type="submit" className="btn btn-primary">
-          Submit
+          SignUp
         </button>
       </form>
     </>
