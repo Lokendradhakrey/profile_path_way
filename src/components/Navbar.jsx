@@ -42,7 +42,7 @@ function Navbar() {
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link first-color fs-5" to={`user-details`}>
-                <i class="bi bi-person-circle"></i>
+                <i className="bi bi-person-circle"></i>
                 </NavLink>
               </li>
             </ul>
