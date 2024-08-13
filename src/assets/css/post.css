@@ -13,6 +13,4 @@
 /* utility classes ends */
 .user-post {
   max-width: 500px;
-  display: flex;
-  justify-items: center;
 }

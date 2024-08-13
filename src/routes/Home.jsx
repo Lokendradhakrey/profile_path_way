@@ -1,7 +1,6 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import Post from "../components/Post";
-// import userPost from "../assets/images/resume1.jpeg";
 import userProfileImg from "../assets/images/userProfile.avif"
 
 function Home() {
