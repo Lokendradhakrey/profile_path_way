@@ -11,16 +11,16 @@ function Post({ altText, userProfileImg }) {
   const [postData, setPostData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  let liked = true;
+  const [liked, setLiked] = useState(false);
 
   const handleLike = () => {
-    if(liked){
-      liked = false;
-    }else{
-      liked = true;
+    if (liked) {
+      setLiked(!liked);
+      setLikes(likes - 1);
+    } else {
+      setLiked(!liked);
+      setLikes(likes + 1);
     }
-    setLikes(likes + 1);
   };
 
   const handleComment = () => {
@@ -100,7 +100,11 @@ function Post({ altText, userProfileImg }) {
                 />
                 <div className="flex justify-between p-3">
                   <button onClick={handleLike}>
-                    {liked?<i class="bi bi-hand-thumbs-up hover:text-green-200"></i>:<i className="bi bi-hand-thumbs-up-fill me-1 hover:text-green-200"></i>}
+                    {liked ? (
+                      <i class="bi bi-hand-thumbs-up-fill me-1 hover:text-green-200"></i>
+                    ) : (
+                      <i className="bi bi-hand-thumbs-up me-1 hover:text-green-200"></i>
+                    )}
                     {likes}
                   </button>
                   <button onClick={handleComment}>
