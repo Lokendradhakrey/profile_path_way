@@ -42,11 +42,16 @@ function Post({ altText, userProfileImg }) {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="spinner-grow" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+   
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div className="text-center">Error: {error}</div>;
   }
 
   return (
