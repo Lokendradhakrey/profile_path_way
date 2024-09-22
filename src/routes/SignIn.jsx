@@ -1,9 +1,34 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import "../assets/css/signIn.css";
 import logoImage from "../assets/images/logo-profile-path-way.png";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { AuthContext } from "../configs/security/AuthContext";
 
 function SignIn() {
+  // useState hooks for form fields
+  const [username, setusername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
+
+  // Get loginService and authenticated state from AuthContext
+  const { loginService, authenticated } = useContext(AuthContext);
+
+  // useNavigate hook to redirect after successful login
+  const navigate = useNavigate();
+
+  // Handle form submission
+  const handleSubmit = async (event) => {
+    event.preventDefault(); // Prevent form from refreshing the page
+    setErrorMessage(null); // Clear any previous error messages
+
+    const loginSuccess = await loginService(username, password); // Call login service
+    if (loginSuccess) {
+      navigate("/"); // Redirect to dashboard or some protected route
+    } else {
+      setErrorMessage("Invalid login credentials. Please try again."); // Show error message
+    }
+  };
+
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -21,21 +46,23 @@ function SignIn() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form action="#" method="POST" className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label
-                htmlFor="email"
+                htmlFor="username"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Email address
+                Username
               </label>
               <div className="mt-2">
                 <input
-                  id="email"
-                  name="email"
-                  type="email"
+                  id="username"
+                  name="username"
+                  type="text"
+                  value={username}
+                  onChange={(e) => setusername(e.target.value)} // Update username state
                   required
-                  autoComplete="email"
+                  autoComplete="username"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -63,12 +90,18 @@ function SignIn() {
                   id="password"
                   name="password"
                   type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)} // Update password state
                   required
                   autoComplete="current-password"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
+
+            {errorMessage && (
+              <div className="text-red-500 text-sm mt-2">{errorMessage}</div>
+            )}
 
             <div>
               <button
@@ -86,7 +119,7 @@ function SignIn() {
               to={`/signUp`}
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
             >
-              SignUp
+              Sign Up
             </NavLink>
           </p>
         </div>

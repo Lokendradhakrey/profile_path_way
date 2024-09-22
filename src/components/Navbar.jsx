@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Disclosure,
   DisclosureButton,
@@ -13,11 +13,12 @@ import logoImage from "../assets/images/logo-profile-path-way.png";
 import "../assets/css/navbar.css";
 import { NavLink } from "react-router-dom";
 import { UserCircleIcon } from "@heroicons/react/16/solid";
+import { AuthContext } from "../configs/security/AuthContext";
 
 const navigation = [
   { name: "Home", to: `/`, current: true },
-  { name: "SignIn", to: `/signIn`, current: false },
-  { name: "SignUp", to: `/signUp`, current: false },
+  { name: "SignIn", to: `/auth?mode=login`, current: false },
+  { name: "SignUp", to: `/auth?mode=signup`, current: false },
 ];
 
 function classNames(...classes) {
@@ -25,6 +26,8 @@ function classNames(...classes) {
 }
 
 function Navbar() {
+  const { authenticated, profilename } = useContext(AuthContext);
+  const { logout } = useContext(AuthContext);
   return (
     <>
       <Disclosure as="nav" className="bg-gray-800 sticky top-0">
@@ -51,65 +54,97 @@ function Navbar() {
               </div>
               <div className="ms-auto hidden sm:ml-6 sm:block">
                 <div className="flex space-x-3">
-                  {navigation.map((item) => (
-                    <NavLink
-                      key={item.name}
-                      to={item.to}
-                      aria-current={item.current ? "page" : undefined}
-                      className={classNames(
-                        item.current
-                          ? "bg-gray-900 text-white"
-                          : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                        "rounded-md px-2 py-2 text-sm font-medium"
-                      )}
-                    >
-                      {item.name}
-                    </NavLink>
-                  ))}
+                  <div className="flex space-x-3">
+                    {/* Render "Home" link and conditionally render SignIn/SignUp or username */}
+                    {navigation.map(
+                      (item) =>
+                        item.name === "Home" && (
+                          <NavLink
+                            key={item.name}
+                            to={item.to}
+                            aria-current={item.current ? "page" : undefined}
+                            className={classNames(
+                              item.current
+                                ? "bg-gray-900 text-white"
+                                : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                              "rounded-md px-2 py-2 text-sm font-medium"
+                            )}
+                          >
+                            {item.name}
+                          </NavLink>
+                        )
+                    )}
+
+                    {/* Conditional rendering based on authentication status */}
+                    {!authenticated ? (
+                      <>
+                        <NavLink
+                          to="/auth?mode=login"
+                          className={classNames(
+                            "text-gray-300 hover:bg-gray-700 hover:text-white",
+                            "rounded-md px-2 py-2 text-sm font-medium"
+                          )}
+                        >
+                          Log In
+                        </NavLink>
+                        <NavLink
+                          to="/auth?mode=signup"
+                          className={classNames(
+                            "text-gray-300 hover:bg-gray-700 hover:text-white",
+                            "rounded-md px-2 py-2 text-sm font-medium"
+                          )}
+                        >
+                          Sign Up
+                        </NavLink>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-              {/* Profile dropdown */}
-              <Menu as="div" className="relative ml-3">
-                <div>
-                  <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                    <span className="absolute -inset-1.5" />
-                    <span className="sr-only">Open user menu</span>
-                    <UserCircleIcon aria-hidden="true" className="h-12 w-12 text-gray-300" />
-                  </MenuButton>
-                </div>
-                <MenuItems
-                  transition
-                  className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
-                >
-                  <MenuItem>
-                    <NavLink
-                      to={`/user-details`}
-                      className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
-                    >
-                      Your Profile
-                    </NavLink>
-                  </MenuItem>
-                  <MenuItem>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
-                    >
-                      Settings
-                    </a>
-                  </MenuItem>
-                  <MenuItem>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
-                    >
-                      Sign out
-                    </a>
-                  </MenuItem>
-                </MenuItems>
-              </Menu>
-            </div>
+
+            {authenticated ? (
+              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                {/* Profile dropdown */}
+                <Menu as="div" className="relative ml-3">
+                  <div>
+                    <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                      <span className="absolute -inset-1.5" />
+                      <span className="sr-only">Open user menu</span>
+                      <UserCircleIcon
+                        aria-hidden="true"
+                        className="h-12 w-12 text-gray-300"
+                      />
+                    </MenuButton>
+                  </div>
+                  <MenuItems
+                    transition
+                    className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+                  >
+                    <MenuItem>
+                      <NavLink
+                        to={`/user-details`}
+                        className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
+                      >
+                        {profilename}
+                      </NavLink>
+                    </MenuItem>
+                    <MenuItem>
+                      <button
+                        onClick={logout}
+                        className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
+                      >
+                        Sign out
+                      </button>
+                    </MenuItem>
+                  </MenuItems>
+                </Menu>
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         </div>
 
