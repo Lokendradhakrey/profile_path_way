@@ -12,7 +12,7 @@ export default function AuthProvider({ children }) {
     try {
       const response = await loginApi(username, password);
       if (response.status === 200) {
-        setName(response.data.username);
+        setName(response.data.fullName);
         setAuthenticated(true);
         // Set the token in a cookie
         Cookies.set("token", "Bearer " + response.data.accessToken, { expires: 1 });
@@ -32,7 +32,7 @@ export default function AuthProvider({ children }) {
     try {
       const response = await signupApi(fullname, username, email, password);
       if (response.status === 200) {
-        setName(response.data.username);
+        setName(response.data.fullName);
         setAuthenticated(true);
         // Set the token in a cookie
         Cookies.set("token", "Bearer " + response.data.accessToken, { expires: 1 });
@@ -53,6 +53,7 @@ export default function AuthProvider({ children }) {
     Cookies.remove("token");
     setAuthenticated(false);
     setName(null);
+    window.location.reload(true);
   };
 
   return (
