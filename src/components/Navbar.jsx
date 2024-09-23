@@ -16,9 +16,7 @@ import { UserCircleIcon } from "@heroicons/react/16/solid";
 import { AuthContext } from "../configs/security/AuthContext";
 
 const navigation = [
-  { name: "Home", to: `/`, current: true },
-  { name: "SignIn", to: `/auth?mode=login`, current: false },
-  { name: "SignUp", to: `/auth?mode=signup`, current: false },
+  { name: "Home", to: `/`,  },
 ];
 
 function classNames(...classes) {
@@ -55,7 +53,17 @@ function Navbar() {
               <div className="ms-auto hidden sm:ml-6 sm:block">
                 <div className="flex space-x-3">
                   <div className="flex space-x-3">
-                    {/* Render "Home" link and conditionally render SignIn/SignUp or username */}
+                  <NavLink
+                          to="/"
+                         aria-current="true"
+                          className={classNames(
+                            "text-gray-300 hover:bg-gray-700 hover:text-white",
+                            "rounded-md px-2 py-2 text-sm font-medium"
+                          )}
+                        >
+                          Home
+                        </NavLink>
+                    {/* Render "Home" link and conditionally render SignIn/SignUp or username
                     {navigation.map(
                       (item) =>
                         item.name === "Home" && (
@@ -73,7 +81,7 @@ function Navbar() {
                             {item.name}
                           </NavLink>
                         )
-                    )}
+                    )} */}
 
                     {/* Conditional rendering based on authentication status */}
                     {!authenticated ? (

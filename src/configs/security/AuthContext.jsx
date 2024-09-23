@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { loginApi, signupApi } from "../apis/AuthApi";
 import Cookies from "js-cookie"; // Import js-cookie
 
@@ -15,7 +15,9 @@ export default function AuthProvider({ children }) {
         setName(response.data.fullName);
         setAuthenticated(true);
         // Set the token in a cookie
-        Cookies.set("token", "Bearer " + response.data.accessToken, { expires: 1 });
+        Cookies.set("token", "Bearer " + response.data.accessToken);
+        // Set the fullName in a cookie
+        Cookies.set("fullName", response.data.fullName);
         return true;
       } else {
         setAuthenticated(false);
@@ -35,7 +37,7 @@ export default function AuthProvider({ children }) {
         setName(response.data.fullName);
         setAuthenticated(true);
         // Set the token in a cookie
-        Cookies.set("token", "Bearer " + response.data.accessToken, { expires: 1 });
+        Cookies.set("token", "Bearer " + response.data.accessToken);
         return true;
       } else {
         setAuthenticated(false);
@@ -51,10 +53,29 @@ export default function AuthProvider({ children }) {
   function logout() {
     // Clear the token from the cookies on logout
     Cookies.remove("token");
+    Cookies.remove("fullName");
     setAuthenticated(false);
     setName(null);
     window.location.reload(true);
   };
+
+  const checkAuthentication = () => {
+    const token = Cookies.get("token");
+    if (token) {
+      // Assume the user is authenticated if the token exists
+      setAuthenticated(true);
+      const storedFullName = Cookies.get("fullName");
+    if (storedFullName) {
+      setName(storedFullName);
+    }
+    } else {
+      setAuthenticated(false);
+    }
+  };
+
+  useEffect(() => {
+    checkAuthentication();
+  }, []);
 
   return (
     <AuthContext.Provider
