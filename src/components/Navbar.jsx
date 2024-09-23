@@ -8,16 +8,14 @@ import {
   MenuItem,
   MenuItems,
 } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import logoImage from "../assets/images/logo-profile-path-way.png";
 import "../assets/css/navbar.css";
 import { NavLink } from "react-router-dom";
 import { UserCircleIcon } from "@heroicons/react/16/solid";
 import { AuthContext } from "../configs/security/AuthContext";
 
-const navigation = [
-  { name: "Home", to: `/`,  },
-];
+const navigation = [{ name: "Home", to: `/` }];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -53,41 +51,20 @@ function Navbar() {
               <div className="ms-auto hidden sm:ml-6 sm:block">
                 <div className="flex space-x-3">
                   <div className="flex space-x-3">
-                  <NavLink
-                          to="/"
-                         aria-current="true"
-                          className={classNames(
-                            "text-gray-300 hover:bg-gray-700 hover:text-white",
-                            "rounded-md px-2 py-2 text-sm font-medium"
-                          )}
-                        >
-                          Home
-                        </NavLink>
-                    {/* Render "Home" link and conditionally render SignIn/SignUp or username
-                    {navigation.map(
-                      (item) =>
-                        item.name === "Home" && (
-                          <NavLink
-                            key={item.name}
-                            to={item.to}
-                            aria-current={item.current ? "page" : undefined}
-                            className={classNames(
-                              item.current
-                                ? "bg-gray-900 text-white"
-                                : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                              "rounded-md px-2 py-2 text-sm font-medium"
-                            )}
-                          >
-                            {item.name}
-                          </NavLink>
-                        )
-                    )} */}
-
-                    {/* Conditional rendering based on authentication status */}
+                    <NavLink
+                      to="/"
+                      aria-current="true"
+                      className={classNames(
+                        "text-gray-300 hover:bg-gray-700 hover:text-white",
+                        "rounded-md px-2 py-2 text-sm font-medium"
+                      )}
+                    >
+                      Home
+                    </NavLink>
                     {!authenticated ? (
                       <>
                         <NavLink
-                          to="/auth?mode=login"
+                          to="/login"
                           className={classNames(
                             "text-gray-300 hover:bg-gray-700 hover:text-white",
                             "rounded-md px-2 py-2 text-sm font-medium"
@@ -96,7 +73,7 @@ function Navbar() {
                           Log In
                         </NavLink>
                         <NavLink
-                          to="/auth?mode=signup"
+                          to="/signup"
                           className={classNames(
                             "text-gray-300 hover:bg-gray-700 hover:text-white",
                             "rounded-md px-2 py-2 text-sm font-medium"

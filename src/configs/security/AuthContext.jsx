@@ -30,9 +30,9 @@ export default function AuthProvider({ children }) {
     }
   };
 
-  const signupService = async (fullname, username, email, password) => {
+  const signupService = async (fullName, username, email, password) => {
     try {
-      const response = await signupApi(fullname, username, email, password);
+      const response = await signupApi(fullName, username, email, password);
       if (response.status === 200) {
         setName(response.data.fullName);
         setAuthenticated(true);
@@ -64,9 +64,9 @@ export default function AuthProvider({ children }) {
     if (token) {
       // Assume the user is authenticated if the token exists
       setAuthenticated(true);
-      const storedFullName = Cookies.get("fullName");
-    if (storedFullName) {
-      setName(storedFullName);
+      const storedfullName = Cookies.get("fullName");
+    if (storedfullName) {
+      setName(storedfullName);
     }
     } else {
       setAuthenticated(false);

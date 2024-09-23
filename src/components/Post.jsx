@@ -77,23 +77,6 @@ function Post({ altText, userProfileImg }) {
                       <p className="font-light">{formattedDate}</p>
                     </div>
                   </div>
-                  <div className="dropdown">
-                    <button
-                      className="btn"
-                      type="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      <i className="bi bi-three-dots"></i>
-                    </button>
-                    <ul className="dropdown-menu">
-                      <li>
-                        <a className="dropdown-item text-danger" href="">
-                          Delete
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
                 </div>
                 <div className="post-content pb-2 italic px-2 bg-[#f8fafc]">
                   {post.content}
