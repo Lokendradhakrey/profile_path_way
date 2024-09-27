@@ -63,14 +63,14 @@ function Post({ altText, userProfileImg }) {
           <div className="bg-gray flex flex-1 items-center justify-center px-4">
             <div className="pt-6">
               <div className="user-post mb-6 shadow-gray-500 shadow-lg rounded-lg">
-                <div className="post-header flex justify-between align-center p-2 bg-[#f8fafc] border border-neutral-950 rounded-t-lg">
-                  <div className="user-profile-img-box w-12 h-12 flex align-center">
+                <div className="post-header flex justify-between align-center py-3 px-4 bg-[#f8fafc] border border-neutral-950 rounded-t-lg">
+                  <div className="user-profile-img-box w-60 h-12 flex align-center">
                     <img
                       alt=""
                       src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                       className="inline-block h-10 w-10 rounded-full ring-2"
                     />
-                    <div className="ps-2">
+                    <div className="ps-3 w-24">
                       <div className="username text-lg">
                         {post.user.username}
                       </div>
