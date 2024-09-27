@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import {
   Disclosure,
   DisclosureButton,
+  DisclosurePanel,
   Menu,
   MenuButton,
   MenuItem,
@@ -15,7 +16,7 @@ import { UserCircleIcon } from "@heroicons/react/16/solid";
 import { AuthContext } from "../configs/security/AuthContext";
 import ApiClient from "../configs/apis/ApiClient";
 
-const navigation = [{ name: "Home", to: `/`,current: "true" }];
+const navigation = [{ name: "Home", to: `/`, current: "true" }];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -271,6 +272,126 @@ function Navbar() {
             )}
           </div>
         </div>
+        <DisclosurePanel className="sm:hidden">
+          <div className="space-y-1 px-2 pb-3 pt-2">
+            {navigation.map((item) => (
+              <DisclosureButton
+                key={item.name}
+                as="a"
+                href={item.href}
+                aria-current={item.current ? "page" : undefined}
+                className={classNames(
+                  item.current
+                    ? "bg-gray-900 text-white"
+                    : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                  "block rounded-md px-3 py-2 text-base font-medium"
+                )}
+              >
+                {item.name}
+              </DisclosureButton>
+            ))}
+            {authenticated ? (
+              <button
+                onClick={togglePopup}
+                aria-current="true"
+                className={classNames(
+                  "text-gray-300 hover:bg-gray-700 hover:text-white",
+                  "rounded-md px-2 py-2 text-sm font-medium d-flex align-items-center"
+                )}
+              >
+                <i class="bi bi-plus-square  me-1"></i>
+                <span>Create</span>
+              </button>
+            ) : (
+              <>
+                <NavLink
+                  to="/login"
+                  className={classNames(
+                    "text-gray-300 hover:bg-gray-700 hover:text-white block",
+                    "rounded-md px-2 py-2 text-sm font-medium"
+                  )}
+                >
+                  Log In
+                </NavLink>
+                <NavLink
+                  to="/signup"
+                  className={classNames(
+                    "text-gray-300 hover:bg-gray-700 hover:text-white block",
+                    "rounded-md px-2 py-2 text-sm font-medium"
+                  )}
+                >
+                  Sign Up
+                </NavLink>
+              </>
+            )}
+            <div className="relative">
+              {isOpen && (
+                <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+                  <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                    <div className="mt-3 text-center">
+                      <h3 className="text-lg leading-6 font-medium text-gray-900">
+                        Create Post
+                      </h3>
+                      <form
+                        className="mt-2 was-validated"
+                        onSubmit={handleSubmit}
+                      >
+                        <div className="mb-3">
+                          <label
+                            htmlFor="content"
+                            class=""
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            About Post
+                          </label>
+                          <input
+                            className="mt-1 form-control is-valid block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            id="content"
+                            name="content"
+                            value={content}
+                            onChange={(e) => setContent(e.target.value)}
+                            placeholder="This is the best resume."
+                            required
+                          ></input>
+                          <div className="invalid-feedback text-red-500 text-xs italic">
+                            Please write something about your post.
+                          </div>
+                        </div>
+                        <div className="mb-3">
+                          <input
+                            type="file"
+                            name="file"
+                            onChange={(e) => setFile(e.target.files[0])}
+                            className="form-control"
+                            aria-label="file example"
+                            required
+                          />
+                          <div className="invalid-feedback text-red-500 text-xs italic">
+                            jpg, jpeg, png
+                          </div>
+                        </div>
+                        <div className="mb-3">
+                          <button
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                            type="submit"
+                          >
+                            upload
+                          </button>
+                        </div>
+                      </form>
+                      <button
+                        onClick={togglePopup}
+                        className="mt-3 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </DisclosurePanel>
       </Disclosure>
     </>
   );
