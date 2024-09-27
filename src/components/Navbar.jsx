@@ -104,21 +104,6 @@ function Navbar() {
               <div className="ms-auto hidden sm:ml-6 sm:block">
                 <div className="flex space-x-3">
                   <div className="flex space-x-3">
-                    {authenticated ? (
-                      <button
-                        onClick={togglePopup}
-                        aria-current="true"
-                        className={classNames(
-                          "text-gray-300 hover:bg-gray-700 hover:text-white",
-                          "rounded-md px-2 py-2 text-sm font-medium d-flex align-items-center"
-                        )}
-                      >
-                        <i class="bi bi-plus-square  me-1"></i>
-                        <span>Create</span>
-                      </button>
-                    ) : (
-                      ""
-                    )}
                     <div className="relative">
                       {isOpen && (
                         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
@@ -221,7 +206,17 @@ function Navbar() {
                         </NavLink>
                       </>
                     ) : (
-                      ""
+                      <button
+                        onClick={togglePopup}
+                        aria-current="true"
+                        className={classNames(
+                          "text-gray-300 hover:bg-gray-700 hover:text-white",
+                          "rounded-md px-2 py-2 text-sm font-medium d-flex align-items-center"
+                        )}
+                      >
+                        <i class="bi bi-plus-square  me-1"></i>
+                        <span>Create</span>
+                      </button>
                     )}
                   </div>
                 </div>
