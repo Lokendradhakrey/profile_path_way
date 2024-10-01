@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import Post from "../components/Post";
 import userProfileImg from "../assets/images/userProfile.avif"
+import ClaudePost from "../components/ClaudePost";
 
 function Home() {
   return (

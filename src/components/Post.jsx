@@ -4,23 +4,28 @@ import axios from "axios";
 import { format } from "date-fns";
 import { useState } from "react";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import { Bookmark, Heart, MessageCircle, Share2 } from "lucide-react";
 
 function Post({ altText, userProfileImg }) {
   const [likes, setLikes] = useState(27);
   const [comments, setComments] = useState(13);
+  const [isSaved, setIsSaved] = useState(false);
   const [postData, setPostData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [liked, setLiked] = useState(false);
+  const [isLiked, setLiked] = useState(false);
 
   const handleLike = () => {
-    if (liked) {
-      setLiked(!liked);
+    if (isLiked) {
+      setLiked(!isLiked);
       setLikes(likes - 1);
     } else {
-      setLiked(!liked);
+      setLiked(!isLiked);
       setLikes(likes + 1);
     }
+  };
+  const handleSave = () => {
+    setIsSaved(!isSaved);
   };
 
   const handleComment = () => {
@@ -42,12 +47,13 @@ function Post({ altText, userProfileImg }) {
   }, []);
 
   if (loading) {
-    return<div class="d-flex justify-content-center align-items-center vh-100">
-    <div class="spinner-grow" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-  </div>
-   
+    return (
+      <div class="d-flex justify-content-center align-items-center vh-100">
+        <div class="spinner-grow" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
   }
 
   if (error) {
@@ -60,50 +66,58 @@ function Post({ altText, userProfileImg }) {
         const rawDate = post.date;
         const formattedDate = format(new Date(rawDate), "dd-MM-yyyy");
         return (
-          <div className="bg-gray flex flex-1 items-center justify-center px-4">
-            <div className="pt-6">
-              <div className="user-post mb-6 shadow-gray-500 shadow-lg rounded-lg">
-                <div className="post-header flex justify-between align-center py-3 px-4 bg-[#f8fafc] border border-neutral-950 rounded-t-lg">
-                  <div className="user-profile-img-box w-60 h-12 flex align-center">
-                    <img
-                      alt=""
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      className="inline-block h-10 w-10 rounded-full ring-2"
-                    />
-                    <div className="ps-3 w-24">
-                      <div className="username text-lg">
-                        {post.user.username}
-                      </div>
-                      <p className="font-light">{formattedDate}</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="post-content pb-2 italic px-2 bg-[#f8fafc]">
-                  {post.content}
-                </div>
-                <img
-                  alt={altText}
-                  src={post.fileUrl}
-                  className="h-full w-full object-cover object-center"
-                />
-                <div className="flex justify-between p-3">
-                  <button onClick={handleLike}>
-                    {liked ? (
-                      <i class="bi bi-hand-thumbs-up-fill me-1 hover:text-green-200"></i>
-                    ) : (
-                      <i className="bi bi-hand-thumbs-up me-1 hover:text-green-200"></i>
-                    )}
-                    {likes}
-                  </button>
-                  <button onClick={handleComment}>
-                    <i className="bi bi-chat me-1 hover:text-green-200"></i>
-                    {comments}
-                  </button>
-                  <button>
-                    <i className="bi bi-arrow-down hover:text-green-200"></i>
-                  </button>
-                </div>
+          <div className="max-w-xl mx-auto bg-white rounded-lg shadow-md overflow-hidden my-8">
+            {/* User Info */}
+            <div className="flex items-center p-4">
+              <img
+                src={userProfileImg}
+                alt={altText}
+                className="w-12 h-12 rounded-full object-cover mr-4"
+              />
+              <div>
+                <h2 className="font-semibold text-lg">{post.user.username}</h2>
+                <p className="text-gray-500 text-sm">{formattedDate}</p>
               </div>
+            </div>
+
+            {/* Post Content */}
+            <p className="px-4 py-2 text-gray-800">{post.content}</p>
+
+            {/* Post Image */}
+            {post.file && (
+              <img
+                src={post.fileUrl}
+                alt="Post content"
+                className="w-full h-auto object-cover"
+              />
+            )}
+
+            {/* Interaction Buttons */}
+            <div className="flex justify-between items-center px-4 py-3 border-t border-gray-200">
+              <div className="flex space-x-4">
+                <button
+                  onClick={handleLike}
+                  className={`flex items-center space-x-1 ${
+                    isLiked ? "text-red-500" : "text-gray-500"
+                  }`}
+                >
+                  <Heart size={20} fill={isLiked ? "currentColor" : "none"} />
+                  <span>{likes}</span>
+                </button>
+                <button className="flex items-center space-x-1 text-gray-500">
+                  <MessageCircle size={20} />
+                  <span>{post.comments}</span>
+                </button>
+                <button className="flex items-center space-x-1 text-gray-500">
+                  <Share2 size={20} />
+                </button>
+              </div>
+              <button
+                onClick={handleSave}
+                className={`${isSaved ? "text-blue-500" : "text-gray-500"}`}
+              >
+                <Bookmark size={20} fill={isSaved ? "currentColor" : "none"} />
+              </button>
             </div>
           </div>
         );

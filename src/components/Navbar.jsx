@@ -11,7 +11,7 @@ import {
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import logoImage from "../assets/images/logo-profile-path-way.png";
 import "../assets/css/navbar.css";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { UserCircleIcon } from "@heroicons/react/16/solid";
 import { AuthContext } from "../configs/security/AuthContext";
 import ApiClient from "../configs/apis/ApiClient";
@@ -247,11 +247,23 @@ function Navbar() {
                       </p>
                     </div>
                     <MenuItem>
-                      {({ active }) => (
+                     
+                        <Link
+                         to={`/profile`}
+                          className={classNames(
+                            "bg-gray-200 block px-4 py-2 text-sm text-gray-700"
+                          )}
+                        >
+                          Profile
+                        </Link>
+                     
+                    </MenuItem>
+                    <MenuItem>
+                      {({ focus }) => (
                         <button
                           onClick={logout}
                           className={classNames(
-                            active ? "bg-gray-100" : "",
+                            focus ? "bg-gray-100" : "",
                             "block px-4 py-2 text-sm text-gray-700"
                           )}
                         >
